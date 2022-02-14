@@ -1,6 +1,6 @@
 //
 //  TestView.swift
-//  BannerImageCropper
+//  BannerCroppingView
 //
 //  Created by Yulia Novikova on 2/10/22.
 //
@@ -75,7 +75,7 @@ class BannerCroppingView: UIView {
     
     func centerContent() {
         guard let image = imageView.image else { return }
-        let height = BannerImageCropper.frame(for: image, inImageViewAspectFit: imageView).height
+        let height = imageView.realImageRect().height
         let centerOffsetY = (height - scrollView.frame.size.height) / 2
         scrollView.setContentOffset(CGPoint(x: 0, y: centerOffsetY), animated: false)
     }
