@@ -9,9 +9,9 @@ import UIKit
 
 class BannerCroppingView: UIView {
     
-    var conifig: BannerCropperCofiguration?
+    private var conifig: BannerCropperCofiguration?
     
-    var scrollView: UIScrollView = {
+    private var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.clipsToBounds = false
         scrollView.alwaysBounceHorizontal = true
@@ -22,21 +22,21 @@ class BannerCroppingView: UIView {
         return scrollView
     }()
     
-    var imageView: UIImageView = {
+    private var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    var bannerView: CroppingAreaView = {
+    private var bannerView: CroppingAreaView = {
         let banner = CroppingAreaView()
         banner.isUserInteractionEnabled = false
         banner.translatesAutoresizingMaskIntoConstraints = false
         return banner
     }()
     
-    var dimView: UIView = {
+    private var dimView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
         view.isUserInteractionEnabled = false
@@ -73,8 +73,7 @@ class BannerCroppingView: UIView {
         layoutIfNeeded()
     }
     
-    func centerContent() {
-        guard let image = imageView.image else { return }
+    private func centerContent() {
         let height = imageView.realImageRect().height
         let centerOffsetY = (height - scrollView.frame.size.height) / 2
         scrollView.setContentOffset(CGPoint(x: 0, y: centerOffsetY), animated: false)
@@ -87,7 +86,7 @@ class BannerCroppingView: UIView {
         updateDimmingMaskFrame()
     }
     
-    func updateMinZoomScaleForSize(_ size: CGSize) {
+    private func updateMinZoomScaleForSize(_ size: CGSize) {
         let widthScale = size.width / imageView.bounds.width
         let heightScale = size.height / imageView.bounds.height
         let minScale = min(widthScale, heightScale)
@@ -125,11 +124,11 @@ class BannerCroppingView: UIView {
         dimView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }
     
-    func configure() {
+    private func configure() {
        constraintLayout()
     }
     
-    func updateDimmingMaskFrame() {
+    private func updateDimmingMaskFrame() {
         let maskLayer = CAShapeLayer()
         maskLayer.frame = dimView.bounds
         maskLayer.fillRule = CAShapeLayerFillRule.evenOdd

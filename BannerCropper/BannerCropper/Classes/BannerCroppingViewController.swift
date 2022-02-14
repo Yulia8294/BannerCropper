@@ -56,7 +56,7 @@ public class BannerCroppingViewController: UIViewController {
     }
     
     @discardableResult
-    func configure(with config: BannerCropperCofiguration,
+    public func configure(with config: BannerCropperCofiguration,
                    _ completion: @escaping BannerCropperCompletion,
                    _ onDismiss: @escaping BannerCropperDismissCompletion) -> Self {
         self.config = config
@@ -65,12 +65,12 @@ public class BannerCroppingViewController: UIViewController {
         return self
     }
 
-    @IBAction func didPressClose(_ sender: UIButton) {
+    @IBAction private func didPressClose(_ sender: UIButton) {
         dismiss(animated: true, completion: nil)
         dismissCompletion?()
     }
     
-    @IBAction func didPressCrop(_ sender: UIButton) {
+    @IBAction private func didPressCrop(_ sender: UIButton) {
         if let image = croppingView.croppedImage() {
             dismiss(animated: true, completion: nil)
             completion?(image)
