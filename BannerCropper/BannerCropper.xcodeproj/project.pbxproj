@@ -10,6 +10,7 @@
 		78EF823027BA7B7A009BD7F8 /* BannerCropper.docc in Sources */ = {isa = PBXBuildFile; fileRef = 78EF822F27BA7B7A009BD7F8 /* BannerCropper.docc */; };
 		78EF823127BA7B7A009BD7F8 /* BannerCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 78EF822E27BA7B7A009BD7F8 /* BannerCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		78EF823927BA7C38009BD7F8 /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = 78EF823727BA7BD3009BD7F8 /* Classes */; };
+		78EF82E627BAACBA009BD7F8 /* BannerCropper.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 78EF82E527BAACBA009BD7F8 /* BannerCropper.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -17,6 +18,7 @@
 		78EF822E27BA7B7A009BD7F8 /* BannerCropper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerCropper.h; sourceTree = "<group>"; };
 		78EF822F27BA7B7A009BD7F8 /* BannerCropper.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = BannerCropper.docc; sourceTree = "<group>"; };
 		78EF823727BA7BD3009BD7F8 /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Classes; sourceTree = "<group>"; };
+		78EF82E527BAACBA009BD7F8 /* BannerCropper.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BannerCropper.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -49,11 +51,12 @@
 		78EF822D27BA7B7A009BD7F8 /* BannerCropper */ = {
 			isa = PBXGroup;
 			children = (
+				78EF82E527BAACBA009BD7F8 /* BannerCropper.podspec */,
 				78EF823727BA7BD3009BD7F8 /* Classes */,
 				78EF822E27BA7B7A009BD7F8 /* BannerCropper.h */,
 				78EF822F27BA7B7A009BD7F8 /* BannerCropper.docc */,
 			);
-			path = BannerCropper;
+			name = BannerCropper;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -125,6 +128,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78EF82E627BAACBA009BD7F8 /* BannerCropper.podspec in Resources */,
 				78EF823927BA7C38009BD7F8 /* Classes in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
