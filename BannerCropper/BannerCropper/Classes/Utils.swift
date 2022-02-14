@@ -7,22 +7,6 @@
 
 import UIKit
 
-func frame(for image: UIImage, inImageViewAspectFit imageView: UIImageView) -> CGRect {
-    let imageRatio = (image.size.width / image.size.height)
-    let viewRatio = imageView.frame.size.width / imageView.frame.size.height
-    if imageRatio < viewRatio {
-        let scale = imageView.frame.size.height / image.size.height
-        let width = scale * image.size.width
-        let topLeftX = (imageView.frame.size.width - width) * 0.5
-        return CGRect(x: topLeftX, y: 0, width: width, height: imageView.frame.size.height)
-    } else {
-        let scale = imageView.frame.size.width / image.size.width
-        let height = scale * image.size.height
-        let topLeftY = (imageView.frame.size.height - height) * 0.5
-        return CGRect(x: 0.0, y: topLeftY, width: imageView.frame.size.width, height: height)
-    }
-}
-
 extension UIImageView {
     
     func realImageRect() -> CGRect {
