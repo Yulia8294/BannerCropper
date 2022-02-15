@@ -12,7 +12,7 @@ public class BannerCroppingViewController: UIViewController {
     static public func initialize(with configuration: BannerCropperCofiguration,
                                   _ completion: @escaping BannerCropperCompletion,
                                   _ onDismiss: @escaping BannerCropperDismissCompletion) -> BannerCroppingViewController {
-        let storyboard = UIStoryboard(name: "CropperBoard", bundle: .main)
+        let storyboard = UIStoryboard(name: "CropperBoard", bundle: Bundle(for: self))
         let vc = storyboard.instantiateViewController(withIdentifier: "BannerCroppingViewController") as! BannerCroppingViewController
         vc.configure(with: configuration, completion, onDismiss)
         return vc

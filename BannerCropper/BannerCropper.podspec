@@ -6,7 +6,7 @@ s.name = "BannerCropper"
 s.summary = "Banner Cropper is a controller for editing image for use as a banner"
 s.requires_arc = true
 
-s.version = "0.1.5"
+s.version = "0.1.6"
 
 s.license = { :type => "MIT", :file => "LICENSE" }
 
