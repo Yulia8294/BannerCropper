@@ -40,6 +40,10 @@ public struct BannerCropperCofiguration {
     public var topBarSeparatorColor: UIColor = .separator
     public var cropperImagePosition: ImageAlignment = .center
 
+    public var titleText: String?
+    public var titleFont: UIFont = .systemFont(ofSize: 14)
+    public var titleColor: UIColor = .black
+    
     public init(image: UIImage) {
         self.image = image
     }

@@ -59,6 +59,10 @@ public class BannerCroppingViewController: UIViewController {
         croppingView.layer.masksToBounds = true
         croppingView.clipsToBounds = true
         separatorView.backgroundColor = config.topBarSeparatorColor
+        
+        titleLabel.text = config.titleText
+        titleLabel.textColor = config.titleColor
+        titleLabel.font = config.titleFont
     }
     
     @discardableResult
