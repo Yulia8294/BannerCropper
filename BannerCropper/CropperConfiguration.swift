@@ -10,6 +10,12 @@ import UIKit
 public typealias BannerCropperCompletion = (UIImage?) -> Void
 public typealias BannerCropperDismissCompletion = () -> Void
 
+public enum ImageAlignment {
+    case top
+    case center
+    case bottom
+}
+
 public struct BannerCropperCofiguration {
     
     public var bannerHeight: CGFloat = 120
@@ -21,6 +27,8 @@ public struct BannerCropperCofiguration {
     public var cropAreaBorderWidth: CGFloat?
     public var closeButtonText = "Back"
     public var saveButtonText = "Save"
+    public var saveButtonFont: UIFont = .systemFont(ofSize: 14)
+    public var closeButtonFont: UIFont = .systemFont(ofSize: 14)
     public var saveButtonTint: UIColor = .white
     public var closeButtonTint: UIColor = .white
     public var saveButtonBackground: UIColor = .blue
@@ -29,7 +37,9 @@ public struct BannerCropperCofiguration {
     public var closeButtonCornerRadius: CGFloat = 0
     public var cropButtonCornerRadius: CGFloat = 0
     public var cropperViewCornerRadius: CGFloat = 0
-    
+    public var topBarSeparatorColor: UIColor = .separator
+    public var cropperImagePosition: ImageAlignment = .center
+
     public init(image: UIImage) {
         self.image = image
     }

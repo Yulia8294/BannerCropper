@@ -9,8 +9,9 @@ import UIKit
 
 class BannerCroppingView: UIView {
     
-    private var conifig: BannerCropperCofiguration?
-    
+    private var config: BannerCropperCofiguration!
+    private let defaultBannerHeight: CGFloat = 120
+
     private var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.clipsToBounds = false
@@ -43,7 +44,6 @@ class BannerCroppingView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-    
     //MARK: - Init
     
     override init(frame: CGRect) {
@@ -56,33 +56,39 @@ class BannerCroppingView: UIView {
         configure()
     }
     
-    func configure(with configuration: BannerCropperCofiguration?) {
-        guard let configuration = configuration else {
-            return
-        }
-
-        self.conifig = configuration
+    func configure(with configuration: BannerCropperCofiguration) {
+        self.config = configuration
         bannerView.configure(with: CroppingAreaViewModel(gridColor:    configuration.gridColor,
                                                          displaysGrid: configuration.displayGrid,
                                                          borderColor:  configuration.cropAreaBorderColor,
                                                          borderWidth:  configuration.cropAreaBorderWidth))
         imageView.image = configuration.image
         dimView.backgroundColor = configuration.cropperViewBackgroundColor
+        constraintLayout()
+
         backgroundColor = configuration.cropperViewBackgroundColor
         setNeedsLayout()
         layoutIfNeeded()
     }
     
-    private func centerContent() {
-        let height = imageView.realImageRect().height
-        let centerOffsetY = (height - scrollView.frame.size.height) / 2
-        scrollView.setContentOffset(CGPoint(x: 0, y: centerOffsetY), animated: false)
+    private func alignContent(position: ImageAlignment) {
+        switch position {
+        case .top:
+            scrollView.setContentOffset(.zero, animated: false)
+        case .center:
+            let height = imageView.realImageRect().height
+            let centerOffsetY = (height - scrollView.frame.size.height) / 2
+            scrollView.setContentOffset(CGPoint(x: 0, y: centerOffsetY), animated: false)
+        case .bottom:
+            let contentOffsetY = scrollView.frame.size.height - bannerView.frame.height
+            scrollView.setContentOffset(CGPoint(x: 0, y: contentOffsetY), animated: false)
+        }
     }
     
     override func layoutSubviews() {
         super.layoutSubviews()
         updateMinZoomScaleForSize(bounds.size)
-        centerContent()
+        alignContent(position: config.cropperImagePosition)
         updateDimmingMaskFrame()
     }
     
@@ -95,28 +101,43 @@ class BannerCroppingView: UIView {
         scrollView.zoomScale = minScale
     }
     
-    private func constraintLayout() {
+    private func layoutViews() {
         addSubview(scrollView)
         scrollView.addSubview(imageView)
         addSubview(bannerView)
         addSubview(dimView)
         scrollView.delegate = self
-
-        scrollView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        scrollView.heightAnchor.constraint(equalToConstant: 120).isActive = true
-        scrollView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    }
+    
+    private func constraintLayout() {
+        bannerView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
+        bannerView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
+        bannerView.heightAnchor.constraint(equalToConstant: config?.bannerHeight ?? defaultBannerHeight).isActive = true
+        
+        if let config = config {
+            switch config.cropperImagePosition {
+            case .center:
+                bannerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+                bannerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+            case .top:
+                bannerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
+            case .bottom:
+                bannerView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+            }
+        } else {
+            bannerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+            bannerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        }
+       
+        scrollView.leadingAnchor.constraint(equalTo: bannerView.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: bannerView.trailingAnchor).isActive = true
+        scrollView.topAnchor.constraint(equalTo: bannerView.topAnchor).isActive = true
+        scrollView.bottomAnchor.constraint(equalTo: bannerView.bottomAnchor).isActive = true
         
         imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
         imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
         imageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
         imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        
-        bannerView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        bannerView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        bannerView.heightAnchor.constraint(equalToConstant: 120).isActive = true
-        bannerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        bannerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         dimView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
         dimView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
@@ -125,7 +146,7 @@ class BannerCroppingView: UIView {
     }
     
     private func configure() {
-       constraintLayout()
+       layoutViews()
     }
     
     private func updateDimmingMaskFrame() {

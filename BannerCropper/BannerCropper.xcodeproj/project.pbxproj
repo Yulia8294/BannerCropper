@@ -7,17 +7,27 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		78BC440F27BD2C3400BB0504 /* BannerCroppingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BC440E27BD2C3400BB0504 /* BannerCroppingView.swift */; };
+		78BC441127BD2C3900BB0504 /* BannerCroppingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BC441027BD2C3900BB0504 /* BannerCroppingViewController.swift */; };
+		78BC441727BD2C4600BB0504 /* GridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BC441227BD2C4600BB0504 /* GridView.swift */; };
+		78BC441827BD2C4600BB0504 /* CroppingAreaView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BC441427BD2C4600BB0504 /* CroppingAreaView.swift */; };
+		78BC441927BD2C4600BB0504 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BC441327BD2C4600BB0504 /* Utils.swift */; };
+		78BC441C27BD2C5600BB0504 /* CropperBoard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 78BC441B27BD2C4A00BB0504 /* CropperBoard.storyboard */; };
+		78BC441D27BD2C7000BB0504 /* CropperConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78BC441527BD2C4600BB0504 /* CropperConfiguration.swift */; };
 		78EF823027BA7B7A009BD7F8 /* BannerCropper.docc in Sources */ = {isa = PBXBuildFile; fileRef = 78EF822F27BA7B7A009BD7F8 /* BannerCropper.docc */; };
-		78EF823127BA7B7A009BD7F8 /* BannerCropper.h in Headers */ = {isa = PBXBuildFile; fileRef = 78EF822E27BA7B7A009BD7F8 /* BannerCropper.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		78EF823927BA7C38009BD7F8 /* Classes in Resources */ = {isa = PBXBuildFile; fileRef = 78EF823727BA7BD3009BD7F8 /* Classes */; };
 		78EF82E627BAACBA009BD7F8 /* BannerCropper.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 78EF82E527BAACBA009BD7F8 /* BannerCropper.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		78BC440E27BD2C3400BB0504 /* BannerCroppingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCroppingView.swift; sourceTree = "<group>"; };
+		78BC441027BD2C3900BB0504 /* BannerCroppingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BannerCroppingViewController.swift; sourceTree = "<group>"; };
+		78BC441227BD2C4600BB0504 /* GridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridView.swift; sourceTree = "<group>"; };
+		78BC441327BD2C4600BB0504 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
+		78BC441427BD2C4600BB0504 /* CroppingAreaView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CroppingAreaView.swift; sourceTree = "<group>"; };
+		78BC441527BD2C4600BB0504 /* CropperConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CropperConfiguration.swift; sourceTree = "<group>"; };
+		78BC441B27BD2C4A00BB0504 /* CropperBoard.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = CropperBoard.storyboard; sourceTree = "<group>"; };
 		78EF822B27BA7B7A009BD7F8 /* BannerCropper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = BannerCropper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		78EF822E27BA7B7A009BD7F8 /* BannerCropper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BannerCropper.h; sourceTree = "<group>"; };
 		78EF822F27BA7B7A009BD7F8 /* BannerCropper.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = BannerCropper.docc; sourceTree = "<group>"; };
-		78EF823727BA7BD3009BD7F8 /* Classes */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Classes; sourceTree = "<group>"; };
 		78EF82E527BAACBA009BD7F8 /* BannerCropper.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = BannerCropper.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -52,8 +62,13 @@
 			isa = PBXGroup;
 			children = (
 				78EF82E527BAACBA009BD7F8 /* BannerCropper.podspec */,
-				78EF823727BA7BD3009BD7F8 /* Classes */,
-				78EF822E27BA7B7A009BD7F8 /* BannerCropper.h */,
+				78BC441527BD2C4600BB0504 /* CropperConfiguration.swift */,
+				78BC441427BD2C4600BB0504 /* CroppingAreaView.swift */,
+				78BC441227BD2C4600BB0504 /* GridView.swift */,
+				78BC441327BD2C4600BB0504 /* Utils.swift */,
+				78BC440E27BD2C3400BB0504 /* BannerCroppingView.swift */,
+				78BC441027BD2C3900BB0504 /* BannerCroppingViewController.swift */,
+				78BC441B27BD2C4A00BB0504 /* CropperBoard.storyboard */,
 				78EF822F27BA7B7A009BD7F8 /* BannerCropper.docc */,
 			);
 			name = BannerCropper;
@@ -66,7 +81,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				78EF823127BA7B7A009BD7F8 /* BannerCropper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -129,7 +143,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				78EF82E627BAACBA009BD7F8 /* BannerCropper.podspec in Resources */,
-				78EF823927BA7C38009BD7F8 /* Classes in Resources */,
+				78BC441C27BD2C5600BB0504 /* CropperBoard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -140,7 +154,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				78BC440F27BD2C3400BB0504 /* BannerCroppingView.swift in Sources */,
 				78EF823027BA7B7A009BD7F8 /* BannerCropper.docc in Sources */,
+				78BC441927BD2C4600BB0504 /* Utils.swift in Sources */,
+				78BC441727BD2C4600BB0504 /* GridView.swift in Sources */,
+				78BC441D27BD2C7000BB0504 /* CropperConfiguration.swift in Sources */,
+				78BC441127BD2C3900BB0504 /* BannerCroppingViewController.swift in Sources */,
+				78BC441827BD2C4600BB0504 /* CroppingAreaView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

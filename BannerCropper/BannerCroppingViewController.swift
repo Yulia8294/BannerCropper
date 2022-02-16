@@ -18,9 +18,12 @@ public class BannerCroppingViewController: UIViewController {
         return vc
     }
 
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var cropButton: UIButton!
     @IBOutlet weak var closeButton: UIButton!
     @IBOutlet weak var croppingView: BannerCroppingView!
+    @IBOutlet weak var separatorView: UIView!
+
     
     private var completion: BannerCropperCompletion?
     private var dismissCompletion: BannerCropperDismissCompletion?
@@ -40,6 +43,8 @@ public class BannerCroppingViewController: UIViewController {
     private func setupUI() {
         cropButton.setTitle(config.saveButtonText, for: .normal)
         cropButton.tintColor = config.saveButtonTint
+        closeButton.titleLabel?.font = config.closeButtonFont
+        cropButton.titleLabel?.font = config.saveButtonFont
         closeButton.setTitleColor(config.saveButtonTint, for: .normal)
         cropButton.backgroundColor = config.saveButtonBackground
         closeButton.setTitle(config.closeButtonText, for: .normal)
@@ -53,6 +58,7 @@ public class BannerCroppingViewController: UIViewController {
         croppingView.layer.cornerRadius = config.cropperViewCornerRadius
         croppingView.layer.masksToBounds = true
         croppingView.clipsToBounds = true
+        separatorView.backgroundColor = config.topBarSeparatorColor
     }
     
     @discardableResult
