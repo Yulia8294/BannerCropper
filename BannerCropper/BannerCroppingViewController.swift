@@ -65,6 +65,12 @@ public class BannerCroppingViewController: UIViewController {
         titleLabel.font = config.titleFont
     }
     
+    public override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        croppingView.setNeedsLayout()
+        croppingView.layoutIfNeeded()
+    }
+    
     @discardableResult
     public func configure(with config: BannerCropperCofiguration,
                    _ completion: @escaping BannerCropperCompletion,

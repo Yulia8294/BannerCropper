@@ -10,9 +10,8 @@ import UIKit
 class BannerCroppingView: UIView {
     
     private var config: BannerCropperCofiguration!
-    private let defaultBannerHeight: CGFloat = 120
 
-    private var scrollView: UIScrollView = {
+    private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.clipsToBounds = false
         scrollView.alwaysBounceHorizontal = true
@@ -20,24 +19,25 @@ class BannerCroppingView: UIView {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.delegate = self
         return scrollView
     }()
     
-    private var imageView: UIImageView = {
+    private lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     
-    private var bannerView: CroppingAreaView = {
+    private lazy var bannerView: CroppingAreaView = {
         let banner = CroppingAreaView()
         banner.isUserInteractionEnabled = false
         banner.translatesAutoresizingMaskIntoConstraints = false
         return banner
     }()
     
-    private var dimView: UIView = {
+    private lazy var dimView: UIView = {
         let view = UIView()
         view.clipsToBounds = true
         view.isUserInteractionEnabled = false
@@ -58,18 +58,39 @@ class BannerCroppingView: UIView {
     
     func configure(with configuration: BannerCropperCofiguration) {
         self.config = configuration
+        
         bannerView.configure(with: CroppingAreaViewModel(gridColor:    configuration.gridColor,
                                                          displaysGrid: configuration.displayGrid,
                                                          borderColor:  configuration.cropAreaBorderColor,
                                                          borderWidth:  configuration.cropAreaBorderWidth))
-        imageView.image = configuration.image
-        dimView.backgroundColor = configuration.cropperViewBackgroundColor
+        
+        imageView.image         = config.image
+        dimView.backgroundColor = config.cropperViewBackgroundColor
+        backgroundColor         = config.cropperViewBackgroundColor
+        
         constraintLayout()
-
-        backgroundColor = configuration.cropperViewBackgroundColor
-        setNeedsLayout()
         layoutIfNeeded()
     }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        updateMinZoomScaleForSize(bounds.size)
+        alignContent(position: config.cropperImagePosition)
+        updateDimmingMaskFrame()
+    }
+    
+    private func addSubviews() {
+        addSubview(scrollView)
+        scrollView.addSubview(imageView)
+        addSubview(bannerView)
+        addSubview(dimView)
+    }
+    
+    private func configure() {
+       addSubviews()
+    }
+    
+    //MARK: - Layout setup
     
     private func alignContent(position: ImageAlignment) {
         switch position {
@@ -85,68 +106,55 @@ class BannerCroppingView: UIView {
         }
     }
     
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        updateMinZoomScaleForSize(bounds.size)
-        alignContent(position: config.cropperImagePosition)
-        updateDimmingMaskFrame()
-    }
-    
     private func updateMinZoomScaleForSize(_ size: CGSize) {
         let widthScale = size.width / imageView.bounds.width
-        let heightScale = size.height / imageView.bounds.height
-        let minScale = min(widthScale, heightScale)
-
+//        let heightScale = size.height / imageView.bounds.height
+//        let minScale = min(widthScale, heightScale)
+        let minScale = widthScale
         scrollView.minimumZoomScale = minScale
         scrollView.zoomScale = minScale
     }
     
-    private func layoutViews() {
-        addSubview(scrollView)
-        scrollView.addSubview(imageView)
-        addSubview(bannerView)
-        addSubview(dimView)
-        scrollView.delegate = self
-    }
-    
     private func constraintLayout() {
-        bannerView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        bannerView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        bannerView.heightAnchor.constraint(equalToConstant: config?.bannerHeight ?? defaultBannerHeight).isActive = true
+        NSLayoutConstraint.activate([
+            bannerView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            bannerView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            bannerView.heightAnchor.constraint(equalToConstant: config.bannerHeight),
+            
+            scrollView.leadingAnchor.constraint(equalTo: bannerView.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: bannerView.trailingAnchor),
+            scrollView.heightAnchor.constraint(equalTo: bannerView.heightAnchor),
+            
+            imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            imageView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            
+            dimView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            dimView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            dimView.topAnchor.constraint(equalTo: topAnchor),
+            dimView.bottomAnchor.constraint(equalTo: bottomAnchor)
+        ])
         
-        if let config = config {
-            switch config.cropperImagePosition {
-            case .center:
-                bannerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-                bannerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-            case .top:
-                bannerView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-            case .bottom:
-                bannerView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-            }
-        } else {
-            bannerView.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-            bannerView.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        switch config.cropperImagePosition {
+        case .center:
+            NSLayoutConstraint.activate([
+                bannerView.centerYAnchor.constraint(equalTo: centerYAnchor),
+                bannerView.centerXAnchor.constraint(equalTo: centerXAnchor),
+                scrollView.centerYAnchor.constraint(equalTo: bannerView.centerYAnchor),
+                scrollView.centerXAnchor.constraint(equalTo: bannerView.centerXAnchor)
+            ])
+        case .top:
+            NSLayoutConstraint.activate([
+                bannerView.topAnchor.constraint(equalTo: topAnchor),
+                scrollView.topAnchor.constraint(equalTo: bannerView.topAnchor)
+            ])
+        case .bottom:
+            NSLayoutConstraint.activate([
+                bannerView.bottomAnchor.constraint(equalTo: bottomAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: bannerView.bottomAnchor)
+            ])
         }
-       
-        scrollView.leadingAnchor.constraint(equalTo: bannerView.leadingAnchor).isActive = true
-        scrollView.trailingAnchor.constraint(equalTo: bannerView.trailingAnchor).isActive = true
-        scrollView.topAnchor.constraint(equalTo: bannerView.topAnchor).isActive = true
-        scrollView.bottomAnchor.constraint(equalTo: bannerView.bottomAnchor).isActive = true
-        
-        imageView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
-        imageView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
-        imageView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
-        imageView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
-        
-        dimView.leadingAnchor.constraint(equalTo: leadingAnchor).isActive = true
-        dimView.trailingAnchor.constraint(equalTo: trailingAnchor).isActive = true
-        dimView.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        dimView.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-    }
-    
-    private func configure() {
-       layoutViews()
     }
     
     private func updateDimmingMaskFrame() {
@@ -161,10 +169,7 @@ class BannerCroppingView: UIView {
     
     override func hitTest(_ point: CGPoint, with event: UIEvent?) -> UIView? {
         let view = super.hitTest(point, with: event)
-
-        if view == self {
-            return scrollView
-        }
+        if view == self { return scrollView }
         return view
     }
 
@@ -177,12 +182,13 @@ extension BannerCroppingView: UIScrollViewDelegate {
     }
 }
 
-// Cropping
+//MARK: - Cropping image
+
 extension BannerCroppingView {
     
     func croppedImage() -> UIImage? {
         let visibleRect = calcVisibleRectForResizeableCropArea()
-
+        
         guard let image = imageView.image,
               let cropped = image.cgImage?.cropping(to: visibleRect) else {
                   print("Error when cropping")
@@ -190,7 +196,7 @@ extension BannerCroppingView {
               }
         return UIImage(cgImage: cropped, scale: image.scale, orientation: image.imageOrientation)
     }
-
+    
     private func calcVisibleRectForResizeableCropArea() -> CGRect {
         var sizeScale = self.imageView.image!.size.width / self.imageView.frame.size.width
         sizeScale *= self.scrollView.zoomScale
