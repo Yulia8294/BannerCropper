@@ -11,10 +11,10 @@ public class BannerCroppingViewController: UIViewController {
     
     static public func initialize(with configuration: BannerCropperCofiguration,
                                   _ completion: @escaping BannerCropperCompletion,
-                                  _ onDismiss: @escaping BannerCropperDismissCompletion) -> BannerCroppingViewController {
+                                  onCancel: @escaping BannerCropperDismissCompletion) -> BannerCroppingViewController {
         let storyboard = UIStoryboard(name: "CropperBoard", bundle: Bundle(for: self))
-        let vc = storyboard.instantiateViewController(withIdentifier: "BannerCroppingViewController") as! BannerCroppingViewController
-        vc.configure(with: configuration, completion, onDismiss)
+        let vc = storyboard.instantiateViewController(withIdentifier: String(describing: BannerCroppingViewController.self)) as! BannerCroppingViewController
+        vc.configure(with: configuration, completion, onCancel)
         return vc
     }
 
@@ -24,7 +24,6 @@ public class BannerCroppingViewController: UIViewController {
     @IBOutlet weak var croppingView: BannerCroppingView!
     @IBOutlet weak var separatorView: UIView!
 
-    
     private var completion: BannerCropperCompletion?
     private var dismissCompletion: BannerCropperDismissCompletion?
     private var config: BannerCropperCofiguration!
@@ -82,14 +81,12 @@ public class BannerCroppingViewController: UIViewController {
     }
 
     @IBAction private func didPressClose(_ sender: UIButton) {
-        dismiss(animated: true, completion: nil)
-        dismissCompletion?()
+        dismissCompletion?(self)
     }
     
     @IBAction private func didPressCrop(_ sender: UIButton) {
         if let image = croppingView.croppedImage() {
-            dismiss(animated: true, completion: nil)
-            completion?(image)
+            completion?(image, self)
         }
     }
 }

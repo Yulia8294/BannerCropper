@@ -7,8 +7,8 @@
 
 import UIKit
 
-public typealias BannerCropperCompletion = (UIImage?) -> Void
-public typealias BannerCropperDismissCompletion = () -> Void
+public typealias BannerCropperCompletion = (_ croppedImage: UIImage?, _ cropController: UIViewController) -> Void
+public typealias BannerCropperDismissCompletion = (_ cropController: UIViewController) -> Void
 
 public enum ImageAlignment {
     case top

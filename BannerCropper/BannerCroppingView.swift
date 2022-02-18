@@ -44,6 +44,7 @@ class BannerCroppingView: UIView {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
+    
     //MARK: - Init
     
     override init(frame: CGRect) {
